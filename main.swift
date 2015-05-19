@@ -12,10 +12,17 @@ let file="/Users/gavi/work/R/capstone/ugram.csv"
 let dictReader=DictReader(file:file,firstRowColNames:false)
 println(dictReader.colNames)
 
+/*
 while(true){
     if let x=dictReader.readLine(){
         println(x)
     }else{
         break
     }
+}
+
+*/
+
+for dict in dictReader{
+    println(dict)
 }

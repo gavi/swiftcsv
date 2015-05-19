@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  csv.swift
 //  CSV
 //
 //  Created by Gavi Narra on 5/2/15.
@@ -86,4 +86,14 @@ class DictReader{
     }
     
     
+    
+}
+
+
+extension DictReader : SequenceType {
+    func generate() -> GeneratorOf<Dictionary<String,String>> {
+        return GeneratorOf<Dictionary<String,String>> {
+            return self.readLine()
+        }
+    }
 }
