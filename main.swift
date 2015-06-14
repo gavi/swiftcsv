@@ -8,21 +8,32 @@
 
 import Foundation
 
-let file="/Users/gavi/work/R/capstone/ugram.csv"
-let dictReader=DictReader(file:file,firstRowColNames:false)
-println(dictReader.colNames)
 
-/*
-while(true){
-    if let x=dictReader.readLine(){
-        println(x)
-    }else{
-        break
+func Test1(){
+    let file="/Users/gavi/work/mac/CSV/CSV/test_files/excel_csv.csv"
+    let dictReader=DictReader(file:file,firstRowColNames:true,dialect:Excel())
+    print(dictReader.colNames)
+
+    while(true){
+        if let x=dictReader.readLine(){
+            print(x)
+        }else{
+            break
+        }
     }
+
+    for dict in dictReader{
+        print(dict)
+    }
+
 }
 
+
+/*let d=Unix()
+
+println(d.description)
 */
 
-for dict in dictReader{
-    println(dict)
-}
+Test1()
+
+
