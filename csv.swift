@@ -12,7 +12,13 @@ enum Quoting{
     case Minimal,All,NonNumeric,None;
 }
 
-class Dialect {
+struct Dialect: CustomStringConvertible{
+    
+    static let Unix:Dialect = Dialect()
+    static let Excel:Dialect = Dialect(delimiter:",",lineterminator:"\r\n",quoteCharacter:"\"")
+    static let ExcelTab:Dialect = Dialect(delimiter:"\t",lineterminator:"\r\n",quoteCharacter:"\"")
+    
+    
     var delimiter:String
     var lineTerminator:String
     var quoteCharacter:String
@@ -29,6 +35,7 @@ class Dialect {
         self.delimiter=delimiter
         self.lineTerminator=lineterminator
         self.quoteCharacter=quoteCharacter
+        self.escapeCharacter=nil
     }
     
     var description:String{
@@ -37,30 +44,11 @@ class Dialect {
         let delim:String=self.delimiter.stringByReplacingOccurrencesOfString("\t", withString: "\\t", options: NSStringCompareOptions.LiteralSearch, range: nil)
         return "Delimiter: \(delim) \nLine Term: \(term)"
     }
-}
-
-class Excel:Dialect{
-    override init(){
-        super.init(delimiter:",",lineterminator:"\r\n",quoteCharacter:"\"")
-    }
-}
-
-class ExcelTab:Excel{
-    override init(){
-        super.init()
-        super.delimiter="\t"
-    }
-}
-
-class Unix:Dialect{
-    override init(){
-        super.init()
-    }
-}
-
     
+}
 
-class DictReader{
+
+struct DictReader{
     var fileHandle:NSFileHandle!
     var encoding:UInt!
     var quoteCharacter:NSString!
@@ -85,7 +73,7 @@ class DictReader{
             if(firstRowColNames){
                 self.colNames=tmp
             }else{
-                for (var i=0;i<tmp.count;i++){
+                for i in 0 ..< tmp.count{
                     self.colNames.append("Var\(i+1)")
                 }
                 //reset the buffer
@@ -130,7 +118,7 @@ class DictReader{
         if let line=rawReadLine(){
             var dict=[String:String]()
             let tmp=line.componentsSeparatedByString(dialect.delimiter)
-            for (var i=0;i<colNames.count;i++){
+            for i in 0 ..< colNames.count{
                 dict[colNames[i]]=tmp[i]
             }
             return dict
@@ -143,7 +131,7 @@ class DictReader{
 
 extension DictReader : SequenceType {
     func generate() -> AnyGenerator<Dictionary<String,String>> {
-        return anyGenerator {
+        return AnyGenerator {
             return self.readLine()
         }
     }

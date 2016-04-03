@@ -11,7 +11,7 @@ import Foundation
 
 func Test1(){
     let file="/Users/gavi/work/mac/CSV/CSV/test_files/excel_csv.csv"
-    let dictReader=DictReader(file:file,firstRowColNames:true,dialect:Excel())
+    let dictReader=DictReader(file:file,firstRowColNames:true,dialect:Dialect.Excel)
     print(dictReader.colNames)
 
     while(true){
@@ -29,11 +29,5 @@ func Test1(){
 }
 
 
-/*let d=Unix()
-
-println(d.description)
-*/
-
-Test1()
-
-
+print(Dialect.Excel)
+//Test1()
